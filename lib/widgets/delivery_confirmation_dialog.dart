@@ -64,6 +64,13 @@ class _DeliveryConfirmationDialogState extends State<DeliveryConfirmationDialog>
         });
         return;
       }
+      if (mobileNumber.length!=10) {
+        setState(() {
+          _errorMessage = 'Please enter valid mobile number';
+          _isVerifying = false;
+        });
+        return;
+      }
       final prefs = await SharedPreferences.getInstance();
       String token = prefs.getString('token') ?? "";
       if (token.isEmpty) {
@@ -223,7 +230,9 @@ class _DeliveryConfirmationDialogState extends State<DeliveryConfirmationDialog>
                 TextFormField(
                   controller: _mobileController,
                   keyboardType: TextInputType.phone,
+                  maxLength: 10,
                   decoration: InputDecoration(
+                    counterText: "",
                     labelText: 'Receiver\'s Mobile Number',
                     hintText: 'Enter the receiver\'s mobile number',
                     prefixIcon: Icon(
